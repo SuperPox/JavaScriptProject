@@ -14,6 +14,30 @@ li {
     text-align: center;
 }
 
+.gridTP {
+    background-color: transparent;
+}
+
+.gridC1 {
+    background-color: #f9c22b;
+    border-radius: 10p;
+}
+.gridC2 {
+    background-color:  #e83b3b;
+}
+.gridC3 {
+    background-color: #4d9be6;
+}
+.gridC4 {
+    background-color: #1ebc73;
+}
+.gridC5 {
+    background-color: #a884f3;
+}
+.gridC6 {
+    background-color: #fca790;
+}
+
 
 body {
     background-color: #1f2024;
