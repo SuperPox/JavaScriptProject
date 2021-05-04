@@ -9,6 +9,7 @@ function fetchBoards()
     fetch('http://localhost:3000/boards')
     .then(jsonToJS)
     .then(boards => {appendBoards(boards)})
+    //.then(boards => {appendColumn(boards)})
     //.then(appendBoards)
     //.then(boards => {console.log(boards)})
 }
@@ -23,13 +24,29 @@ function appendBoards(boards)
 
 function appendBoard(board) 
 {
+    /*
     const boardDiv = document.getElementById('boards')
     const li = document.createElement("li")
     li.innerText = board.name
     li.addEventListener('click', (e) => renderBoardShowPage(board))
     boardDiv.append(li)
-    appendNotes(board.notes, li)
+    appendNotes(board.notes, li)   
+    */
+
+    const boardDiv = document.getElementById('boardContainer2')
+
+    const div = document.createElement('div')
+    div.className = "col-sm gridC4"
+    div.innerText = board.name
+    boardDiv.append(div) 
+
+    const tpSpace = document.createElement('div')
+    tpSpace.className = "col-sm gridTP"
+    tpSpace.innerText = "XXXXX"
+    boardDiv.append(tpSpace)
+
 }
+
 
 function renderBoardShowPage(board)
 {
@@ -61,5 +78,4 @@ function postBoard(e)
     fetch('http://localhost:3000/boards', options)
     .then(jsonToJS)
     .then(appendBoard)
-
 }

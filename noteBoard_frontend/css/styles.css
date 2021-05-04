@@ -38,6 +38,12 @@ li {
     background-color: #fca790;
 }
 
+.test {
+    color: green;
+}
+
+
+
 
 body {
     background-color: #1f2024;
@@ -45,4 +51,5 @@ body {
     background-image: radial-gradient(#585e64 0.65px, #1f2024 0.65px);
     background-size: 13px 13px;
 }
+
 
