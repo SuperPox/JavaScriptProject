@@ -26,10 +26,19 @@ function appendBoard(board)
     const boardDiv = document.getElementById('boards')
     const li = document.createElement("li")
     li.innerText = board.name
+    li.addEventListener('click', (e) => renderBoardShowPage(board))
     boardDiv.append(li)
     appendNotes(board.notes, li)
 }
 
+function renderBoardShowPage(board)
+{
+    const boardContainer = document.getElementById('boardContainer')
+    //boardContainer.children[1].innerHTML = ""
+    boardContainer.children[0].remove()
+    appendBoard(board)
+    appendNoteForm()
+}
 
 function postBoard(e)
 {

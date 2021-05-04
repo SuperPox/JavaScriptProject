@@ -11,14 +11,30 @@ function appendNotes(notes, element)
         noteDelete.innerText = "Delete"
 
         noteLi.innerText = note.content
-        noteDelete.addEventListener('click', (e) => deleteNote(note.id))
+        noteDelete.addEventListener('click', (e) => deleteNote(note.id, noteLi))
         noteLi.append(noteDelete)
         ul.append(noteLi)
     }
 }
 
-function deleteNote(noteID)
+function deleteNote(noteID, noteLi)
 {
-    console.log(noteID)
+    //console.log(noteID)
     fetch(`http://localhost:3000/notes/${noteID}`, {method: "DELETE"})
+    .then(jsonToJS)
+    .then(response => {noteLi.remove()})
+
+}
+
+function appendNoteForm()
+{
+    const boards = document.getElementById('boards')
+    const noteForm = `
+        <form id="noteForm">
+            <label>Note Content: </label>
+            <input id="noteContent"/>
+            <input type="submit" value="Add Note"/>
+        </form>
+    `
+    boards.innerHTML += noteForm
 }

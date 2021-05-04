@@ -1,0 +1,24 @@
+
+h6 {
+    color:whitesmoke
+}
+
+h4 {
+    color:white
+}
+li {
+    color:white
+}
+
+.center {
+    text-align: center;
+}
+
+
+body {
+    background-color: #1f2024;
+    opacity: 1;
+    background-image: radial-gradient(#585e64 0.65px, #1f2024 0.65px);
+    background-size: 13px 13px;
+}
+
