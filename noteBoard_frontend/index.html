@@ -2,52 +2,76 @@
 <html lang="en" dir="ltr">
     <br>
     <head>
-        <meta charset="utf-8"
-        <title><h6><center>NoteBoard</center></h6></title>
-         <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <meta charset="utf-8"  
+        <title></title><h6><center>NoteBoard</center></h6></title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/styles.css"/>
     </head>
-    <br>
+
     <body>
-        
-        <div class="center" id="boardContainer">
-            <form id="boardForm">
-                <label ></label>
-                <input type="text" placeholder=" new board ">
-                <input type="submit" value="+">
-            </form>
+
+        <div class="navHidden" id="navAreaAllBoards">
+            <button type="button" class="btn btn-light btn-sm" id="navButton" onclick='returnToHomeView()' >all boards</button>
         </div>
 
-        <div id="gridZone">
-            <div class="empty">
-                <div class="fill" draggable="true"></div>
+        <div class="navHidden" id="navAreaSingleBoard">
+            <h4>single board</h4>
+        </div>
+
+
+
+        <div class="navVisible" id="homeContainer">        
+
+            <div class="center" id="boardCreator">
+                <form id="boardForm">
+                    <label></label>
+                    <input type="text" placeholder=" new board ">
+                    <input type="submit" value="+">
+                </form>
             </div>
+
+            <div id="gridZone">
+                <div class="empty">
+                    <div class="fill" draggable="true"></div>
+                </div>
+            </div>
+
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            <div class="empty"></div>
+            
+            <div
+                id="boards">
+            </div>            
         </div>
 
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
-        <div class="empty"></div>
+        <div class="navHidden" id="insideBoard">   
+            
+            <div class="center" id="noteCreator">
+                <form id="noteForm">
+                    <label ></label>
+                    <input type="text" placeholder=" new note ">
+                    <input type="submit" value="+">
+                </form>
+            </div>
 
-        <br>
-        <div
-            id="boards">
         </div>
-        
-        
+
+
 
         <script src="src/note.js"></script>
         <script src="src/board.js"></script>

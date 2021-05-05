@@ -111,6 +111,8 @@ function appendToGrid(board)
     gridDiv.className = "fill"
     gridDiv.draggable = "true"
     gridDiv.innerText = board.name
+    gridDiv.addEventListener('dblclick', (e) => renderBoardShowPage(board))
+
     gridZone.append(emptyDiv)
     emptyDiv.append(gridDiv)
 }
@@ -125,32 +127,50 @@ function appendBoard(board)
     li.addEventListener('click', (e) => renderBoardShowPage(board))
     boardDiv.append(li)
     appendNotes(board.notes, li)   
-    
-
-    const boardDiv = document.getElementById('boardContainer2')
-
-    const div = document.createElement('div')
-    div.className = "col-sm gridC4"
-    div.innerText = board.name
-    boardDiv.append(div) 
-
-    const tpSpace = document.createElement('div')
-    tpSpace.className = "col-sm gridTP"
-    tpSpace.innerText = "XXXXX"
-    boardDiv.append(tpSpace)
     */
-
 }
 
+///////////////////////////////////////////////////////////////////////
+// GO INTO A SPECIFIC BOARD
 
 function renderBoardShowPage(board)
 {
+    
+    const homeView = document.getElementById("homeContainer")
+    homeView.className = "navHidden"
+    //homeView.remove()
+
+    const boardView = document.getElementById("insideBoard")
+    boardView.className = "navVisible"
+
+    const navAreaAllBoards= document.getElementById("navAreaAllBoards")
+    navAreaAllBoards.className = "navVisible"
+
+    const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
+    navAreaSingleBoard.className = "navVisible"
+    navAreaSingleBoard.innerHTML = `<h4>${board.name}</h4>`
+
+    /*
     const boardContainer = document.getElementById('boardContainer')
     //boardContainer.children[1].innerHTML = ""
     boardContainer.children[0].remove()
     appendBoard(board)
     appendNoteForm()
+    */
 }
+
+function returnToHomeView()
+{
+    const homeView = document.getElementById("homeContainer")
+    homeView.append()
+    homeView.className = "navVisible"
+
+    const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
+    navAreaSingleBoard.className = "navHidden"
+    
+}
+///////////////////////////////////////////////////////////////////////
+
 
 function postBoard(e)
 {
@@ -173,4 +193,5 @@ function postBoard(e)
     fetch('http://localhost:3000/boards', options)
     .then(jsonToJS)
     .then(appendBoard)
+    //.then(appendToGrid)
 }

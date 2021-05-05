@@ -75,7 +75,24 @@ li {
     display: none;
 }
 
+.navBar {
+    visibility: visible;
+    text-align: center;
+    margin: 15px;
+}
 
+.navVisible {
+    visibility: visible;
+    text-align: center;
+    margin: 15px;
+    display: block;
+}
+.navHidden {
+    visibility: hidden;
+    text-align: center;
+    margin: 15px;
+    display: none;
+}
 
 body {
     background-color: #1f2024;
