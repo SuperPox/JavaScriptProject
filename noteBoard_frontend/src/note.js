@@ -66,6 +66,13 @@ function deleteNote(noteID, noteLi)
     }) 
 }
 
+function createNewNote() 
+{
+    console.log("create new note")
+}
+
+
+
 
 function destroyNoteGridChildren()
 {
