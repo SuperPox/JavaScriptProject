@@ -5,7 +5,7 @@ const boardForm = document.getElementById('boardForm')
 
 
 //////////////////////////////////////////////////////////////////
-// Vars
+// GRID SYSTEM
 //const fill = document.querySelector('.fill');
 var fill = document.querySelector('.fill');
 const fills = document.querySelectorAll('.fill');
@@ -92,8 +92,6 @@ function appendBoards(boards)
 
     boards.forEach(e => appendToGrid(e))
    
-
-
 }
 
 function appendToGrid(board)
@@ -138,7 +136,6 @@ function renderBoardShowPage(board)
     
     const homeView = document.getElementById("homeContainer")
     homeView.className = "navHidden"
-    //homeView.remove()
 
     const boardView = document.getElementById("insideBoard")
     boardView.className = "navVisible"
@@ -149,6 +146,8 @@ function renderBoardShowPage(board)
     const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
     navAreaSingleBoard.className = "navVisible"
     navAreaSingleBoard.innerHTML = `<h4>${board.name}</h4>`
+
+    displayNoteGrid(board.notes)
 
     /*
     const boardContainer = document.getElementById('boardContainer')
@@ -161,15 +160,20 @@ function renderBoardShowPage(board)
 
 function returnToHomeView()
 {
+    // Shows Boards
     const homeView = document.getElementById("homeContainer")
     homeView.append()
     homeView.className = "navVisible"
 
+    //Hide Notes
     const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
-    navAreaSingleBoard.className = "navHidden"
-    
+    navAreaSingleBoard.className = "navHidden"  
+    destroyNoteGridChildren()
 }
+
 ///////////////////////////////////////////////////////////////////////
+
+
 
 
 function postBoard(e)

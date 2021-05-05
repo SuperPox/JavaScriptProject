@@ -28,7 +28,7 @@ function deleteNote(noteID, noteLi)
 
 function appendNoteForm()
 {
-    const boards = document.getElementById('boards')
+    const notes = document.getElementById('noteGrid')
     const noteForm = `
         <form id="noteForm">
             <label>Note Content: </label>
@@ -36,5 +36,42 @@ function appendNoteForm()
             <input type="submit" value="Add Note"/>
         </form>
     `
-    boards.innerHTML += noteForm
+    notes.innerHTML += noteForm
 }
+
+function displayNoteGrid(boardNotes)
+{
+    const noteGrid = document.getElementById('noteGrid')
+
+    for (let note of boardNotes) {
+        const noteLi = document.createElement('li')
+        noteLi.innerText = note.content
+        
+        const noteDelete = document.createElement("button")
+        noteDelete.innerText = "Delete"
+        noteDelete.addEventListener("click", (e) => deleteNote(note.id, noteLi))
+        noteLi.append(noteDelete)
+        
+        noteGrid.append(noteLi)
+    }
+}
+
+function deleteNote(noteID, noteLi)
+{
+    fetch(`http://localhost:3000/notes/${noteID}`, {
+        method: "DELETE"
+    }).then(jsonToJS)
+    .then (message => {
+        noteLi.remove()
+    }) 
+}
+
+
+function destroyNoteGridChildren()
+{
+    const noteGrid = document.getElementById('noteGrid')
+    while (noteGrid.hasChildNodes()){
+        noteGrid.removeChild(noteGrid.lastChild);
+    }
+}
+    
