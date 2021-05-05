@@ -13,19 +13,20 @@ const fills = document.querySelectorAll('.fill');
 const empties = document.querySelectorAll('.empty');
 const emptiesArr = []
 
+// Global Listener
+function addGlobalEventListener(type, selector, callback) {
+    document.addEventListener(type, e => {
+        if (e.target.matches(selector)) callback(e)
+    })
+}
+
+addGlobalEventListener("dragstart", "div", e => {
+    fill = e.target
+})
 
 // Fill Listeners
 fill.addEventListener('dragstart', dragStart);
 fill.addEventListener('dragend', dragEnd);
-
-// Loop through Fills
-fills.forEach( f => {
-    f.addEventListener('dragstart', (e) => {
-        if (e.target.matches("div")) {
-            fill = e.target
-        }
-        })
-})
 
 // Loop through Empties
 for (const empty of empties)
@@ -88,9 +89,32 @@ function appendBoards(boards)
     {
         appendBoard(board)
     }
-    //console.log(emptiesArr)
+
+    boards.forEach(e => appendToGrid(e))
+   
+
 
 }
+
+function appendToGrid(board)
+{
+    const gridZone = document.getElementById("gridZone")
+
+    const emptyDiv = document.createElement('div')
+    emptyDiv.className = "empty"
+    emptyDiv.addEventListener('dragover', dragOver);
+    emptyDiv.addEventListener('dragenter', dragEnter);
+    emptyDiv.addEventListener('dragleave', dragLeave);
+    emptyDiv.addEventListener('drop', dragDrop);
+
+    const gridDiv = document.createElement('div')
+    gridDiv.className = "fill"
+    gridDiv.draggable = "true"
+    gridDiv.innerText = board.name
+    gridZone.append(emptyDiv)
+    emptyDiv.append(gridDiv)
+}
+
 
 function appendBoard(board) 
 {
@@ -101,7 +125,6 @@ function appendBoard(board)
     li.addEventListener('click', (e) => renderBoardShowPage(board))
     boardDiv.append(li)
     appendNotes(board.notes, li)   
-    */
     
 
     const boardDiv = document.getElementById('boardContainer2')
@@ -115,28 +138,7 @@ function appendBoard(board)
     tpSpace.className = "col-sm gridTP"
     tpSpace.innerText = "XXXXX"
     boardDiv.append(tpSpace)
-
-    //
-
-    /*
-    const emptyDiv = document.getElementById('emptyDiv')
-    const fillDiv  = document.createElement('div')
-    fillDiv.className = "fill"
-    fillDiv.innerText = board.name
-    emptyDiv.append(fillDiv)
-    
-
-    const nextDiv = emptiesArr[0]
-    nextDiv.className = "fill"
-    nextDiv.draggable = "true"
-    nextDiv.innerText = board.name
-    emptiesArr.shift
     */
-    
-
-
-
-
 
 }
 
