@@ -1,8 +1,7 @@
-
 class Note {
     
     static allNotes = []
-    
+
     constructor(note) {
         this.id = note.id
         this.content = note.content
@@ -11,21 +10,40 @@ class Note {
         Note.allNotes.push(this)
     }
 
+    //should be static!
     static displayNoteGrid(boardNotes) {
         const noteGrid = document.getElementById('noteGrid')
 
         for (let note of boardNotes) {
             const noteLi = document.createElement('li')
+            const noteId = note.id
             noteLi.innerText = note.content
             
             const noteDelete = document.createElement("button")
-            noteDelete.innerText = "Delete"
-            //noteDelete.addEventListener("click", (e) => {deleteNote(noteLi)})
+            noteDelete.innerText = "✖"
+            noteDelete.addEventListener("click", e => {
+                this.deleteNote(noteLi, noteId)  // NOT A FUNCTION unless I make Delete a static
+            })
+
             noteLi.append(noteDelete)
             noteGrid.append(noteLi)
         }
     }
 
+    static deleteNote(noteLi, noteId) {
+        fetch(`http://localhost:3000/notes/${noteId}`, {
+            method: "DELETE"
+        })
+        .then(jsonToJS)
+        .then (m => {
+            noteLi.remove()
+
+            Note.allNotes = Note.allNotes.filter(note => note.id !== this.id)
+        })
+        renderBoardShowPage() 
+    }
+
+    ///////// APPENDING
     /*
     static appendNotes(notes, element) {
         const ul = document.createElement('ul')
@@ -44,38 +62,23 @@ class Note {
         noteDelete.innerText = "Delete"
 
         noteLi.innerText = this.content
-        noteDelete.addEventListener('click', (e) => deleteNote(noteLi))
-        //noteDelete.addEventListener('click', this.deleteNote.bind(this))
+        noteDelete.addEventListener('click', (e) => {
+            this.deleteNote(noteLi)
+        })
 
         noteLi.append(div)
         div.append(noteLi)
         ul.append(div)
     }
     */
-
-    deleteNote(noteLi) {
-        fetch(`http://localhost:3000/notes/${this.id}`, {
-            method: "DELETE"
-        })
-        .then(jsonToJS)
-        .then (message => {
-            noteLi.remove()
-            Note.allNotes = Note.allNotes.filter(note => note.id !== this.id)
-        }) 
-    }
+    //////////
 
 
 }
 
-
-
 /*
-
-
-
 function deleteNote(noteID, noteLi)
 {
-    debugger
     fetch(`http://localhost:3000/notes/${noteID}`, {
         method: "DELETE"
     }).then(jsonToJS)
@@ -85,9 +88,24 @@ function deleteNote(noteID, noteLi)
 }
 */
 
+function deleteNote(noteLi) 
+{
+    fetch(`http://localhost:3000/notes/${this.id}`, {
+        method: "DELETE"
+    })
+    .then(jsonToJS)
+    .then (message => {
+        noteLi.remove()
+        Note.allNotes = Note.allNotes.filter(note => note.id !== this.id)
+    }) 
+}
+
+
+
+
 function createNewNote(e) 
 {
-    //console.log("create new note")
+    console.log("create new note")
     e.preventDefault()
     const userInput = e.target.children[1].value
     const noteId = e.target.children[2].id
@@ -120,11 +138,5 @@ function createNewNote(e)
 
 
 
-function destroyNoteGridChildren()
-{
-    const noteGrid = document.getElementById('noteGrid')
-    while (noteGrid.hasChildNodes()){
-        noteGrid.removeChild(noteGrid.lastChild);
-    }
-}
+
     

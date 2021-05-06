@@ -156,13 +156,16 @@ class Board {
         navAreaSingleBoard.innerHTML = `<h4>${this.name}</h4>`
 
         //displayNoteGrid(this.notes)
-        Note.displayNoteGrid(this.notes)
+        //Note.appendNotes(this.notes)
+        Note.displayNoteGrid(this.notes) //hers did not pass anything
+        //console.log(this.notes)
+        //this.appendNote()
     }
-
 }
 
 
 ///////////////////////////////////////////////////////////////////////
+// NAVIGATION
 
 function returnToHomeView()
 {
@@ -172,19 +175,17 @@ function returnToHomeView()
     homeView.className = "navVisible"
 
     //Hide Notes
-    const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
+    const navAreaSingleBoard = document.getElementById("insideBoard")
     navAreaSingleBoard.className = "navHidden"  
-    destroyNoteGridChildren()
-}
-
-function destroyNoteGridChildren()
-{
+    
+    //Hide Note Creator
     const noteGrid = document.getElementById('noteGrid')
     while (noteGrid.hasChildNodes()){
         noteGrid.removeChild(noteGrid.lastChild);
     }
 }
 
+//
 ///////////////////////////////////////////////////////////////////////
 
 
