@@ -1,6 +1,129 @@
-
-// VARS
 const boardForm = document.getElementById('boardForm')
+
+class Board {
+    
+    static allBoards = []
+    
+    constructor({name, id, notes}) {
+        this.name = name
+        this.id = id
+        //this.notes = board.notes.map(note => new Note(note))
+        notes.forEach(note => new Note(note))
+        Board.allBoards.push(this)
+    }
+
+    get notes() {
+        return Note.allNotes.filter(note => note.boardId === this.id)
+    }
+
+    static fetchBoards() {
+        fetch('http://localhost:3000/boards')
+        .then(jsonToJS)
+        .then(this.appendBoards)
+    }
+
+    static appendBoards(boards) { 
+        for (let board of boards) {
+            let newBoard = new Board(board)
+            newBoard.appendToGrid()}
+    }
+
+    static postBoard(e) {
+        e.preventDefault()
+        const userInput = e.target.children[1].value
+        const body = {
+            board: {
+                name: userInput
+            }
+        }
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+        e.target.reset()
+        fetch('http://localhost:3000/boards', options)
+        .then(jsonToJS)
+        .then(board => {
+            let newBoard = new Board(board)
+            newBoard.appendToGrid()
+        })
+    }
+
+    appendToGrid() {
+        const gridZone = document.getElementById("gridZone")
+    
+        const emptyDiv = document.createElement('div')
+        emptyDiv.className = "empty"
+        emptyDiv.addEventListener('dragover', dragOver);
+        emptyDiv.addEventListener('dragenter', dragEnter);
+        emptyDiv.addEventListener('dragleave', dragLeave);
+        emptyDiv.addEventListener('drop', dragDrop);
+    
+        const gridDiv = document.createElement('div')
+        gridDiv.className = "fill"
+        gridDiv.draggable = "true"
+        gridDiv.innerText = this.name
+        gridDiv.addEventListener('dblclick', this.renderBoardShowPage.bind(this))
+        //gridDiv.addEventListener('dblclick', () => this.renderBoardShowPage())
+    
+        gridZone.prepend(emptyDiv)
+        emptyDiv.prepend(gridDiv)
+    }
+
+    renderBoardShowPage() {   
+        const homeView = document.getElementById("homeContainer")
+        homeView.className = "navHidden"
+
+        const boardView = document.getElementById("insideBoard")
+        boardView.className = "navVisible"
+
+        const navAreaAllBoards= document.getElementById("navAreaAllBoards")
+        navAreaAllBoards.className = "navVisible"
+
+        const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
+        navAreaSingleBoard.className = "navVisible"
+        navAreaSingleBoard.innerHTML = `<h4>${this.name}</h4>`
+
+        const secretBoardID = document.getElementById("secretBoardID")
+        secretBoardID.innerText = this.id
+
+        
+        //displayNoteGrid(this.notes)
+        //Note.appendNotes(this.notes)
+        Note.displayNoteGrid(this.notes) 
+        //console.log(this.notes)
+        //this.appendNote()
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////
+// NAVIGATION
+
+function returnToHomeView()
+{
+    // Shows Boards
+    const homeView = document.getElementById("homeContainer")
+    homeView.append()
+    homeView.className = "navVisible"
+
+    //Hide Notes
+    const navAreaSingleBoard = document.getElementById("insideBoard")
+    navAreaSingleBoard.className = "navHidden"  
+    
+    //Hide Note Creator
+    const noteGrid = document.getElementById('noteGrid')
+    while (noteGrid.hasChildNodes()){
+        noteGrid.removeChild(noteGrid.lastChild);
+    }
+}
+
+//
+///////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
 // GRID SYSTEM
@@ -65,129 +188,6 @@ function dragDrop()
 }
 
 ///////////////////////////////////////////////////////////////////
-
-class Board {
-    
-    static allBoards = []
-    
-    constructor({name, id, notes}) {
-        this.name = name
-        this.id = id
-        //this.notes = board.notes.map(note => new Note(note))
-        notes.forEach(note => new Note(note))
-        Board.allBoards.push(this)
-    }
-
-    get notes() {
-        return Note.allNotes.filter(note => note.boardId === this.id)
-    }
-
-    static fetchBoards() {
-        fetch('http://localhost:3000/boards')
-        .then(jsonToJS)
-        .then(this.appendBoards)
-    }
-
-    static appendBoards(boards) { 
-        for (let board of boards) {
-            let newBoard = new Board(board)
-            newBoard.appendToGrid()}
-    }
-
-    static postBoard(e) {
-        e.preventDefault()
-        const userInput = e.target.children[1].value
-        const body = {
-            board: {
-                name: userInput
-            }
-        }
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify(body)
-        }
-        e.target.reset()
-        fetch('http://localhost:3000/boards', options)
-        .then(jsonToJS)
-        .then(board => {
-            let newBoard = new Board(board)
-            //newBoard.appendBoard()
-            newBoard.appendToGrid()
-        })
-    }
-
-    appendToGrid() {
-        const gridZone = document.getElementById("gridZone")
-    
-        const emptyDiv = document.createElement('div')
-        emptyDiv.className = "empty"
-        emptyDiv.addEventListener('dragover', dragOver);
-        emptyDiv.addEventListener('dragenter', dragEnter);
-        emptyDiv.addEventListener('dragleave', dragLeave);
-        emptyDiv.addEventListener('drop', dragDrop);
-    
-        const gridDiv = document.createElement('div')
-        gridDiv.className = "fill"
-        gridDiv.draggable = "true"
-        gridDiv.innerText = this.name
-        gridDiv.addEventListener('dblclick', this.renderBoardShowPage.bind(this))
-        //gridDiv.addEventListener('dblclick', () => this.renderBoardShowPage())
-    
-        gridZone.append(emptyDiv)
-        emptyDiv.append(gridDiv)
-    }
-
-    renderBoardShowPage() {   
-        const homeView = document.getElementById("homeContainer")
-        homeView.className = "navHidden"
-
-        const boardView = document.getElementById("insideBoard")
-        boardView.className = "navVisible"
-
-        const navAreaAllBoards= document.getElementById("navAreaAllBoards")
-        navAreaAllBoards.className = "navVisible"
-
-        const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
-        navAreaSingleBoard.className = "navVisible"
-        navAreaSingleBoard.innerHTML = `<h4>${this.name}</h4>`
-
-        //displayNoteGrid(this.notes)
-        //Note.appendNotes(this.notes)
-        Note.displayNoteGrid(this.notes) //hers did not pass anything
-        //console.log(this.notes)
-        //this.appendNote()
-    }
-}
-
-
-///////////////////////////////////////////////////////////////////////
-// NAVIGATION
-
-function returnToHomeView()
-{
-    // Shows Boards
-    const homeView = document.getElementById("homeContainer")
-    homeView.append()
-    homeView.className = "navVisible"
-
-    //Hide Notes
-    const navAreaSingleBoard = document.getElementById("insideBoard")
-    navAreaSingleBoard.className = "navHidden"  
-    
-    //Hide Note Creator
-    const noteGrid = document.getElementById('noteGrid')
-    while (noteGrid.hasChildNodes()){
-        noteGrid.removeChild(noteGrid.lastChild);
-    }
-}
-
-//
-///////////////////////////////////////////////////////////////////////
-
 
 
 

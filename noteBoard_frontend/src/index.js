@@ -1,5 +1,7 @@
 
 boardForm.addEventListener('submit', Board.postBoard)
+noteForm.addEventListener('submit', Note.postNote)
+
 Board.fetchBoards()
 
 

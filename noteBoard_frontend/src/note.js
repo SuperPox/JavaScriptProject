@@ -1,3 +1,5 @@
+const noteForm = document.getElementById('noteForm')
+
 class Note {
     
     static allNotes = []
@@ -10,7 +12,6 @@ class Note {
         Note.allNotes.push(this)
     }
 
-    //should be static!
     static displayNoteGrid(boardNotes) {
         const noteGrid = document.getElementById('noteGrid')
 
@@ -37,12 +38,59 @@ class Note {
         .then(jsonToJS)
         .then (m => {
             noteLi.remove()
-
-            Note.allNotes = Note.allNotes.filter(note => note.id !== this.id)
+            Note.allNotes = Note.allNotes.filter(note => note.id !== noteId)
         })
-        renderBoardShowPage() 
     }
 
+    static postNote(e) {
+        e.preventDefault()
+        const secretBoardID = document.getElementById("secretBoardID")
+        const notesBoardID = secretBoardID.innerText
+        
+        const userInput = e.target.children[1].value
+
+        const body = {
+            note: {
+                content: userInput,
+                board_id: notesBoardID
+            }
+        }
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+        e.target.reset()
+        fetch("http://localhost:3000/notes", options)
+        .then(jsonToJS)
+        .then(note => {
+            let newNote = new Note(note)
+            //newNote.displayNoteGrid(this)
+            Note.showNewNote(newNote)
+            //newNote.displayNoteGrid(this) //got here
+        })
+    }
+
+    static showNewNote(newNote) {
+        const noteGrid = document.getElementById('noteGrid')
+        const noteLi = document.createElement('li')
+        const noteId = newNote.id
+        noteLi.innerText = newNote.content
+        
+        const noteDelete = document.createElement("button")
+        noteDelete.innerText = "✖"
+        noteDelete.addEventListener("click", e => {
+            this.deleteNote(noteLi, noteId)  // NOT A FUNCTION unless I make Delete a static
+        })
+
+        noteLi.append(noteDelete)
+        noteGrid.append(noteLi)
+        
+    }
+}
     ///////// APPENDING
     /*
     static appendNotes(notes, element) {
@@ -72,10 +120,6 @@ class Note {
     }
     */
     //////////
-
-
-}
-
 /*
 function deleteNote(noteID, noteLi)
 {
@@ -86,7 +130,7 @@ function deleteNote(noteID, noteLi)
         noteLi.remove()
     }) 
 }
-*/
+
 
 function deleteNote(noteLi) 
 {
@@ -127,8 +171,8 @@ function createNewNote(e)
     e.target.reset()
     fetch("http://localhost:3000/notes", options)
     .then(jsonToJS)
-    .then(todo => {
-        let ul = document.getElementById(`note-${note.note_id}`)
+    .then(note => {
+        let li = document.getElementById(`note-${note.note_id}`)
         let newNote = new Note(note)
         newNote.appendNote(li)
     })
@@ -136,7 +180,7 @@ function createNewNote(e)
 }
 
 
-
+*/
 
 
     
