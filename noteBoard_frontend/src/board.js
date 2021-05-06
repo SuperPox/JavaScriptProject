@@ -2,8 +2,6 @@
 // VARS
 const boardForm = document.getElementById('boardForm')
 
-
-
 //////////////////////////////////////////////////////////////////
 // GRID SYSTEM
 //const fill = document.querySelector('.fill');
@@ -69,10 +67,19 @@ function dragDrop()
 ///////////////////////////////////////////////////////////////////
 
 class Board {
-    constructor(board) {
-        this.name = board.name
-        this.id = board.id
-        this.notes = board.notes
+    
+    static allBoards = []
+    
+    constructor({name, id, notes}) {
+        this.name = name
+        this.id = id
+        //this.notes = board.notes.map(note => new Note(note))
+        notes.forEach(note => new Note(note))
+        Board.allBoards.push(this)
+    }
+
+    get notes() {
+        return Note.allNotes.filter(note => note.boardId === this.id)
     }
 
     static fetchBoards() {
@@ -82,10 +89,35 @@ class Board {
     }
 
     static appendBoards(boards) { 
-    //boards.forEach(e => appendToGrid(e))
-    for (let board of boards) {
-        let newBoard = new Board(board)
-        newBoard.appendToGrid()}
+        for (let board of boards) {
+            let newBoard = new Board(board)
+            newBoard.appendToGrid()}
+    }
+
+    static postBoard(e) {
+        e.preventDefault()
+        const userInput = e.target.children[1].value
+        const body = {
+            board: {
+                name: userInput
+            }
+        }
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            body: JSON.stringify(body)
+        }
+        e.target.reset()
+        fetch('http://localhost:3000/boards', options)
+        .then(jsonToJS)
+        .then(board => {
+            let newBoard = new Board(board)
+            //newBoard.appendBoard()
+            newBoard.appendToGrid()
+        })
     }
 
     appendToGrid() {
@@ -123,33 +155,10 @@ class Board {
         navAreaSingleBoard.className = "navVisible"
         navAreaSingleBoard.innerHTML = `<h4>${this.name}</h4>`
 
-        displayNoteGrid(this.notes)
+        //displayNoteGrid(this.notes)
+        Note.displayNoteGrid(this.notes)
     }
 
-    static postBoard(e) {
-        e.preventDefault()
-        const userInput = e.target.children[1].value
-        const body = {
-            board: {
-                name: userInput
-            }
-        }
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-            },
-            body: JSON.stringify(body)
-        }
-        e.target.reset()
-        fetch('http://localhost:3000/boards', options)
-        .then(jsonToJS)
-        .then(board => {
-            let newBoard = new Board(board)
-            newBoard.appendBoard()
-        })
-    }
 }
 
 
@@ -166,6 +175,14 @@ function returnToHomeView()
     const navAreaSingleBoard = document.getElementById("navAreaSingleBoard")
     navAreaSingleBoard.className = "navHidden"  
     destroyNoteGridChildren()
+}
+
+function destroyNoteGridChildren()
+{
+    const noteGrid = document.getElementById('noteGrid')
+    while (noteGrid.hasChildNodes()){
+        noteGrid.removeChild(noteGrid.lastChild);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////
