@@ -14,7 +14,7 @@ class Note {
 
     static displayNoteGrid(boardNotes) {
         const noteGrid = document.getElementById('noteGrid')
-
+        
         for (let note of boardNotes) {
             const noteLi = document.createElement('li')
             const noteId = note.id
@@ -46,6 +46,9 @@ class Note {
         e.preventDefault()
         const secretBoardID = document.getElementById("secretBoardID")
         const notesBoardID = secretBoardID.innerText
+
+        const secretBoardObject = document.getElementById("secretBoardObject")
+        const notesBoardObject = JSON.parse(secretBoardObject.innerText)
         
         const userInput = e.target.children[1].value
 
@@ -69,8 +72,9 @@ class Note {
         .then(note => {
             let newNote = new Note(note)
             //newNote.displayNoteGrid(this)
-            Note.showNewNote(newNote)
             //newNote.displayNoteGrid(this) //got here
+            Note.showNewNote(newNote)
+            //Note.displayNoteGrid(notesBoardObject)
         })
     }
 
@@ -78,6 +82,8 @@ class Note {
         const noteGrid = document.getElementById('noteGrid')
         const noteLi = document.createElement('li')
         const noteId = newNote.id
+
+
         noteLi.innerText = newNote.content
         
         const noteDelete = document.createElement("button")
@@ -87,8 +93,7 @@ class Note {
         })
 
         noteLi.append(noteDelete)
-        noteGrid.append(noteLi)
-        
+        noteGrid.append(noteLi) 
     }
 }
     ///////// APPENDING

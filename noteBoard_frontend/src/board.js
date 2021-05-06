@@ -90,10 +90,13 @@ class Board {
 
         const secretBoardID = document.getElementById("secretBoardID")
         secretBoardID.innerText = this.id
+        const secretBoardObject = document.getElementById("secretBoardObject") 
+        secretBoardObject.innerText = JSON.stringify(this.notes)
 
-        
+
         //displayNoteGrid(this.notes)
         //Note.appendNotes(this.notes)
+        
         Note.displayNoteGrid(this.notes) 
         //console.log(this.notes)
         //this.appendNote()
@@ -120,6 +123,7 @@ function returnToHomeView()
     while (noteGrid.hasChildNodes()){
         noteGrid.removeChild(noteGrid.lastChild);
     }
+    
 }
 
 //
