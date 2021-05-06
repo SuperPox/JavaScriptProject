@@ -50,7 +50,8 @@ li {
     top: 5px;
     left: 5px;
     cursor: pointer;
-    font-size: 15px;   
+    font-size: 15px;  
+    
 }
 
 .empty {
@@ -58,7 +59,7 @@ li {
     height: 140px;
     width: 110px;
     margin: 15px;
-    border: 3px whitesmoke;
+    border: 3px whitesmoke; 
     background-color: #1f2024;
 }
 
@@ -70,6 +71,12 @@ li {
     background: rgb(51, 50, 53);
     border-style: dashed;
 }
+
+
+
+
+
+
 
 .invisible {
     display: none;
