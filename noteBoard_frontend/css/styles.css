@@ -18,6 +18,7 @@ li {
     background-color: transparent;
 }
 
+
 .gridC1 {
     background-color: #f9c22b;
     border-radius: 10p;
@@ -41,6 +42,7 @@ li {
 .test {
     color: green;
 }
+
 
 .fill {
     background-color: #4d9be6;
@@ -72,13 +74,13 @@ li {
     border-style: dashed;
 }
 
+
+
+
 .trash {
     font-size: 75px;
     background-color: #1f2024;
 }
-
-
-
 
 .invisible {
     display: none;

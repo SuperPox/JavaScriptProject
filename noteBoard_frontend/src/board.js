@@ -95,14 +95,16 @@ class Board {
         Note.appendToNoteContainer(this.notes)
     }
 }
-
+//ActiveRecord::InvalidForeignKey
 function deleteBoardObject(refId) {
+    //let refToStringId = refId.toString()
     fetch(`http://localhost:3000/boards/${refId}`, {
         method: "DELETE"
     })
     .then(jsonToJS)
     .then (m => {
         emptyTrash();
+        Board.allBoards = Board.allBoards.filter(board => board.id !== refId)
     })
 }
 

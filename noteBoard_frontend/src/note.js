@@ -32,7 +32,7 @@ class Note {
             sortNoteContainer.appendChild(newSortableNote)
             newSortableNote.appendChild(referenceDiv)
 
-            refresh()
+            refreshDraggables()
         }
     }
 
