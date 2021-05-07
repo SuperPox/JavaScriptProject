@@ -9,28 +9,7 @@ class Note {
         this.content = note.content
         this.checkbox = note.checkbox
         this.boardId = note.boardId
-        //this.board_id = note.board_id
-        //this.boardId = note.board_id
         Note.allNotes.push(this)
-    }
-
-    static displayNoteGrid(boardNotes) {
-        const noteGrid = document.getElementById('noteGrid')
-        
-        for (let note of boardNotes) {
-            const noteLi = document.createElement('li')
-            const noteId = note.id
-            noteLi.innerText = note.content
-            
-            const noteDelete = document.createElement("button")
-            noteDelete.innerText = "✖"
-            noteDelete.addEventListener("click", e => {
-                this.deleteNote(noteLi, noteId)  // NOT A FUNCTION unless I make Delete a static
-            })
-
-            noteLi.append(noteDelete)
-            noteGrid.append(noteLi)
-        }
     }
 
     static appendToNoteContainer(notes) {
@@ -53,19 +32,8 @@ class Note {
             sortNoteContainer.appendChild(newSortableNote)
             newSortableNote.appendChild(referenceDiv)
 
-            refreshDraggables()
+            refresh()
         }
-    }
-
-    static deleteNote(noteLi, noteId) {
-        fetch(`http://localhost:3000/notes/${noteId}`, {
-            method: "DELETE"
-        })
-        .then(jsonToJS)
-        .then (m => {
-            noteLi.remove()
-            Note.allNotes = Note.allNotes.filter(note => note.id !== noteId)
-        })
     }
 
     static postNote(e) {
@@ -101,26 +69,8 @@ class Note {
             let boardIdToAdd = note.board_id;
             newNote.boardId = boardIdToAdd;
 
-            //Note.showNewNote(newNote)
             Note.appendNewNote(newNote)
         })
-    }
-
-    static showNewNote(newNote) {
-        const noteGrid = document.getElementById('noteGrid')
-        const noteLi = document.createElement('li')
-        const noteId = newNote.id
-
-        noteLi.innerText = newNote.content
-        
-        const noteDelete = document.createElement("button")
-        noteDelete.innerText = "✖"
-        noteDelete.addEventListener("click", e => {
-            this.deleteNote(noteLi, noteId)  
-        })
-
-        noteLi.append(noteDelete)
-        noteGrid.append(noteLi) 
     }
 
     static appendNewNote(newNote) {
