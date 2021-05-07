@@ -92,14 +92,8 @@ class Board {
         secretBoardID.innerText = this.id
         const secretBoardObject = document.getElementById("secretBoardObject") 
         secretBoardObject.innerText = JSON.stringify(this.notes)
-
-
-        //displayNoteGrid(this.notes)
-        //Note.appendNotes(this.notes)
         
         Note.displayNoteGrid(this.notes) 
-        //console.log(this.notes)
-        //this.appendNote()
     }
 }
 
@@ -109,16 +103,16 @@ class Board {
 
 function returnToHomeView()
 {
-    // Shows Boards
+    // Shows Boards "Page"
     const homeView = document.getElementById("homeContainer")
     homeView.append()
     homeView.className = "navVisible"
 
-    //Hide Notes
+    //Hide Notes "Page"
     const navAreaSingleBoard = document.getElementById("insideBoard")
     navAreaSingleBoard.className = "navHidden"  
     
-    //Hide Note Creator
+    //Remove Notes
     const noteGrid = document.getElementById('noteGrid')
     while (noteGrid.hasChildNodes()){
         noteGrid.removeChild(noteGrid.lastChild);
