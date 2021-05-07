@@ -72,7 +72,10 @@ class Board {
     
         gridZone.prepend(emptyDiv)
         emptyDiv.prepend(gridDiv)
+        
     }
+
+
 
     renderBoardShowPage() {   
         const homeView = document.getElementById("homeContainer")
@@ -95,6 +98,23 @@ class Board {
         
         Note.displayNoteGrid(this.notes) 
     }
+
+    static deleteBoard() {
+
+    }
+
+    /*
+    static deleteNote(noteLi, noteId) {
+        fetch(`http://localhost:3000/notes/${noteId}`, {
+            method: "DELETE"
+        })
+        .then(jsonToJS)
+        .then (m => {
+            noteLi.remove()
+            Note.allNotes = Note.allNotes.filter(note => note.id !== noteId)
+        })
+    }
+    */
 }
 
 

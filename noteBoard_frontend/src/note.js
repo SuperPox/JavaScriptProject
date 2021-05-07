@@ -77,18 +77,7 @@ class Note {
             let boardIdToAdd = note.board_id;
             newNote.boardId = boardIdToAdd;
 
-            //let BN = allBoards.filter(b => b.id == boardIdToAdd)
-            //debugger
-
-            //newNote.displayNoteGrid(this) //got here
-            //Note.displayNoteGrid(notesBoardObject)  //pass old version of object, need new
-            //need to access current Note Object
-            Note.showNewNote(newNote)
-            //Note.allNotes = Note.allNotes.filter(note => note.id !== noteId)
-            ////////Note.displayNoteGrid(this.notes) 
-            //this.displayNoteGrid()
-
-            
+            Note.showNewNote(newNote)           
         })
     }
 
@@ -97,13 +86,12 @@ class Note {
         const noteLi = document.createElement('li')
         const noteId = newNote.id
 
-
         noteLi.innerText = newNote.content
         
         const noteDelete = document.createElement("button")
         noteDelete.innerText = "✖"
         noteDelete.addEventListener("click", e => {
-            this.deleteNote(noteLi, noteId)  // NOT A FUNCTION unless I make Delete a static
+            this.deleteNote(noteLi, noteId)  
         })
 
         noteLi.append(noteDelete)

@@ -61,12 +61,24 @@
 
 
             <div class="empty">
-                <div class="fill" draggable="true"></div>
+                <div class="fill" draggable="true">
+                </div>
             </div>
             
             <div
                 id="boards">
-            </div>            
+            </div>    
+            
+            <div class="container" >
+                <p class="draggable"  draggable="true">1</p>
+                <p class="draggable"  draggable="true">2</p>
+            </div>
+            <br>
+            <h1>⬇️ 🗑️ ⬇️</h1>
+            <div class="container" id="trashDiv"></div>
+            <br>
+
+
         </div>
 
         <div class="navHidden" id="insideBoard">   
@@ -98,5 +110,6 @@
         <script src="src/board.js"></script>
         <script src="src/index.js"></script>
         <script src="src/noteGrid.js"></script>
+        <script src="src/drag.js" defer></script>
     </body>
 </html>
