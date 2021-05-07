@@ -25,7 +25,7 @@ class Board {
     static appendBoards(boards) { 
         for (let board of boards) {
             let newBoard = new Board(board)
-            newBoard.appendToGrid()
+            //newBoard.appendToGrid()
             newBoard.appendToContainer(board)}
     }
 
@@ -50,7 +50,7 @@ class Board {
         .then(jsonToJS)
         .then(board => {
             let newBoard = new Board(board)
-            newBoard.appendToGrid()
+            //newBoard.appendToGrid()
             newBoard.appendToContainer(board)
         })
     }
@@ -119,7 +119,7 @@ class Board {
         const secretBoardObject = document.getElementById("secretBoardObject") 
         secretBoardObject.innerText = JSON.stringify(this.notes)
         
-        Note.displayNoteGrid(this.notes) 
+        //Note.displayNoteGrid(this.notes) 
         Note.appendToNoteContainer(this.notes)
     }
 }
@@ -147,6 +147,10 @@ function returnToHomeView()
     //Hide Notes "Page"
     const navAreaSingleBoard = document.getElementById("insideBoard")
     navAreaSingleBoard.className = "navHidden"  
+
+    //Hide Note "Title"
+    const navNoteTitle = document.getElementById("navAreaSingleBoard")
+    navNoteTitle.className = "navHidden"
     
     //Remove Notes
     const noteGrid = document.getElementById('sortableNoteContainer')
@@ -159,6 +163,7 @@ function returnToHomeView()
 //
 ///////////////////////////////////////////////////////////////////////
 
+/*
 //////////////////////////////////////////////////////////////////
 // GRID SYSTEM
 //const fill = document.querySelector('.fill');
@@ -222,6 +227,6 @@ function dragDrop()
 }
 
 ///////////////////////////////////////////////////////////////////
-
+*/
 
 

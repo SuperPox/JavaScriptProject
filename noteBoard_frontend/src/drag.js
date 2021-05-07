@@ -27,10 +27,10 @@ containers.forEach(container => {
     if (afterElement == null) {
       container.appendChild(draggable)
       //checkTrash()
-      setTimeout(checkTrashDelay, 3000)
+      setTimeout(checkTrashDelay, 1000)
     } else {
       container.insertBefore(draggable, afterElement)
-      setTimeout(checkTrashDelay, 3000)
+      setTimeout(checkTrashDelay, 1000)
     }
   })
 })

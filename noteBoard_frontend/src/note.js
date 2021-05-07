@@ -101,7 +101,7 @@ class Note {
             let boardIdToAdd = note.board_id;
             newNote.boardId = boardIdToAdd;
 
-            Note.showNewNote(newNote)
+            //Note.showNewNote(newNote)
             Note.appendNewNote(newNote)
         })
     }
