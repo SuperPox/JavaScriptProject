@@ -25,8 +25,10 @@ containers.forEach(container => {
 
     if (afterElement == null) {
       container.appendChild(draggable)
+      checkTrash()
     } else {
       container.insertBefore(draggable, afterElement)
+      checkTrash()
     }
   })
 })
@@ -44,11 +46,30 @@ function getDragAfterElement(container, y) {
   }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 
-function emptyTrash() {
+function checkTrash() {
     const trashContainer = document.getElementById('trashDiv')
+    if (trashContainer.hasChildNodes()){
+        let childToCheck = trashContainer.lastElementChild
+        let referenceDetails = ""
+
+        if (childToCheck.lastElementChild.className == "invisible"){
+            referenceDetails = childToCheck.lastElementChild.innerHTML
+            let refString = referenceDetails.toString()
+            
+            deleteTrashBoardObject(referenceDetails)
+        }       
+    }
+}
+
+function deleteTrashBoardObject(referenceDetails) {
+    console.log(referenceDetails)
+}
+
+function emptyTrash() {
+    const trashContainer = document.getElementById('trashDiv')   
     while (trashContainer.hasChildNodes()){
         trashContainer.removeChild(trashContainer.lastChild);
-    }
+    }  
 }
 
 function refreshDraggables() {

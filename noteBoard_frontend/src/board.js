@@ -26,7 +26,7 @@ class Board {
         for (let board of boards) {
             let newBoard = new Board(board)
             newBoard.appendToGrid()
-            newBoard.appendToContainer()}
+            newBoard.appendToContainer(board)}
     }
 
     static postBoard(e) {
@@ -51,7 +51,7 @@ class Board {
         .then(board => {
             let newBoard = new Board(board)
             newBoard.appendToGrid()
-            newBoard.appendToContainer()
+            newBoard.appendToContainer(board)
         })
     }
 
@@ -78,16 +78,24 @@ class Board {
 
     }
 
-    appendToContainer() {
+    appendToContainer(board) {
         const sortContainer = document.getElementById("sortableBoardContainer")
         const newSortableBoard = document.createElement('p')
         
-        
+        const referenceDiv = document.createElement('div')
+        const referenceType = "board"
+        const referenceId = board.id
+        referenceDiv.innerHTML = `${referenceType} ${referenceId}`
+        referenceDiv.className = "invisible"
+      
         newSortableBoard.className = "draggable"
         newSortableBoard.draggable = "true"
         newSortableBoard.innerHTML = this.name
         newSortableBoard.addEventListener('dblclick', this.renderBoardShowPage.bind(this))
+        
         sortContainer.appendChild(newSortableBoard)
+        newSortableBoard.appendChild(referenceDiv)
+
         refreshDraggables()
     }
 
