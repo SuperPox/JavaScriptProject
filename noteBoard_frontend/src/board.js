@@ -3,18 +3,16 @@ const boardForm = document.getElementById('boardForm')
 class Board {
     
     static allBoards = []
-    
     constructor({name, id, notes}) {
         this.name = name
         this.id = id
-        //this.notes = board.notes.map(note => new Note(note))
         notes.forEach(note => new Note(note))
         Board.allBoards.push(this)
     }
-
     get notes() {
         return Note.allNotes.filter(note => note.boardId === this.id)
     }
+
 
     static fetchBoards() {
         fetch('http://localhost:3000/boards')
@@ -25,7 +23,6 @@ class Board {
     static appendBoards(boards) { 
         for (let board of boards) {
             let newBoard = new Board(board)
-            //newBoard.appendToGrid()
             newBoard.appendToContainer(board)}
     }
 
@@ -50,32 +47,8 @@ class Board {
         .then(jsonToJS)
         .then(board => {
             let newBoard = new Board(board)
-            //newBoard.appendToGrid()
             newBoard.appendToContainer(board)
         })
-    }
-
-    appendToGrid() {
-        
-        const gridZone = document.getElementById("gridZone")
-    
-        const emptyDiv = document.createElement('div')
-        emptyDiv.className = "empty"
-        emptyDiv.addEventListener('dragover', dragOver);
-        emptyDiv.addEventListener('dragenter', dragEnter);
-        emptyDiv.addEventListener('dragleave', dragLeave);
-        emptyDiv.addEventListener('drop', dragDrop);
-    
-        const gridDiv = document.createElement('div')
-        gridDiv.className = "fill"
-        gridDiv.draggable = "true"
-        gridDiv.innerText = this.name
-        gridDiv.addEventListener('dblclick', this.renderBoardShowPage.bind(this))
-        //gridDiv.addEventListener('dblclick', () => this.renderBoardShowPage())
-    
-        gridZone.prepend(emptyDiv)
-        emptyDiv.prepend(gridDiv)
-
     }
 
     appendToContainer(board) {
@@ -119,7 +92,6 @@ class Board {
         const secretBoardObject = document.getElementById("secretBoardObject") 
         secretBoardObject.innerText = JSON.stringify(this.notes)
         
-        //Note.displayNoteGrid(this.notes) 
         Note.appendToNoteContainer(this.notes)
     }
 }
@@ -136,7 +108,6 @@ function deleteBoardObject(refId) {
 
 ///////////////////////////////////////////////////////////////////////
 // NAVIGATION
-
 function returnToHomeView()
 {
     // Shows Boards "Page"
@@ -157,76 +128,5 @@ function returnToHomeView()
     while (noteGrid.hasChildNodes()){
         noteGrid.removeChild(noteGrid.lastChild);
     }
-    
 }
-
-//
-///////////////////////////////////////////////////////////////////////
-
-/*
-//////////////////////////////////////////////////////////////////
-// GRID SYSTEM
-//const fill = document.querySelector('.fill');
-var fill = document.querySelector('.fill');
-const fills = document.querySelectorAll('.fill');
-
-const empties = document.querySelectorAll('.empty');
-const emptiesArr = []
-
-// Global Listener
-function addGlobalEventListener(type, selector, callback) {
-    document.addEventListener(type, e => {
-        if (e.target.matches(selector)) callback(e)
-    })
-}
-
-addGlobalEventListener("dragstart", "div", e => {
-    fill = e.target
-})
-
-// Fill Listeners
-fill.addEventListener('dragstart', dragStart);
-fill.addEventListener('dragend', dragEnd);
-
-// Loop through Empties
-for (const empty of empties)
-{
-    empty.addEventListener('dragover', dragOver);
-    empty.addEventListener('dragenter', dragEnter);
-    empty.addEventListener('dragleave', dragLeave);
-    empty.addEventListener('drop', dragDrop);
-}
-
-// Drag Functions
-function dragStart()
-{
-    this.className += ' hold';
-    setTimeout(() => (this.className = 'invisible'), 0);
-}
-function dragEnd()
-{
-    this.className = 'fill';
-}
-function dragOver(e)
-{
-    e.preventDefault();
-}
-function dragEnter(e)
-{
-    e.preventDefault();
-    this.className += ' hovered';
-}
-function dragLeave()
-{
-    this.className = 'empty';
-}
-function dragDrop()
-{
-    this.className = 'empty';
-    this.append(fill);
-}
-
-///////////////////////////////////////////////////////////////////
-*/
-
 
