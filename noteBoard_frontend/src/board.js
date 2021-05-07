@@ -120,6 +120,7 @@ class Board {
         secretBoardObject.innerText = JSON.stringify(this.notes)
         
         Note.displayNoteGrid(this.notes) 
+        Note.appendToNoteContainer(this.notes)
     }
 }
 
@@ -148,7 +149,7 @@ function returnToHomeView()
     navAreaSingleBoard.className = "navHidden"  
     
     //Remove Notes
-    const noteGrid = document.getElementById('noteGrid')
+    const noteGrid = document.getElementById('sortableNoteContainer')
     while (noteGrid.hasChildNodes()){
         noteGrid.removeChild(noteGrid.lastChild);
     }

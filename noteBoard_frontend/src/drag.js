@@ -26,10 +26,11 @@ containers.forEach(container => {
 
     if (afterElement == null) {
       container.appendChild(draggable)
-      checkTrash()
+      //checkTrash()
+      setTimeout(checkTrashDelay, 3000)
     } else {
       container.insertBefore(draggable, afterElement)
-      checkTrash()
+      setTimeout(checkTrashDelay, 3000)
     }
   })
 })
@@ -48,26 +49,35 @@ function getDragAfterElement(container, y) {
 }
 
 function checkTrash() {
-    const trashContainer = document.getElementById('trashDiv')
-    
+    const trashContainer = document.getElementById('trashDiv')  
     if (trashGate == true) 
     {
-        if (trashContainer.hasChildNodes()){
-            trashGate = false;
-            let childToCheck = trashContainer.lastElementChild
-            let referenceDetails = ""
-    
-            if (childToCheck.lastElementChild.className == "invisible"){
-                referenceDetails = childToCheck.lastElementChild.innerHTML            
-    
-                let refString = referenceDetails.toString()
-                let refArr = refString.split(' ');
-                let refId = parseInt(refArr[1])
-    
-                if (refArr[0] == "board") {
-                    deleteBoardObject(refId)
-                }           
-            }       
+        if (trashContainer.hasChildNodes())
+        {
+            if(trashContainer.firstChild.className == "draggable") {
+                console.log("flipped trash gate" + trashGate)
+                trashGate = false;
+                let childToCheck = trashContainer.lastElementChild
+                let referenceDetails = ""
+        
+                if (childToCheck.lastElementChild.className == "invisible"){
+                    referenceDetails = childToCheck.lastElementChild.innerHTML            
+        
+                    let refString = referenceDetails.toString()
+                    let refArr = refString.split(' ');
+                    let refId = parseInt(refArr[1])
+        
+                    if (refArr[0] == "board") {
+                        deleteBoardObject(refId)
+                        console.log("deleted a board")
+                    }
+                    if (refArr[0] == "note") {
+                        //let refBoardId = parseInt(refArr[2])
+                        deleteNoteObject(refId)
+                        console.log("deleted a note")
+                    }        
+                }       
+            }               
         }
     }
 }
@@ -79,6 +89,10 @@ function emptyTrash() {
     }
     refreshDraggables()
     trashGate = true; 
+}
+
+function checkTrashDelay() {
+    checkTrash();
 }
 
 function refreshDraggables() {
@@ -94,4 +108,7 @@ function refreshDraggables() {
         })
       })
 }
+
+
+
 //refreshDraggables();

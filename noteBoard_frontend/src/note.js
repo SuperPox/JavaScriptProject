@@ -33,6 +33,30 @@ class Note {
         }
     }
 
+    static appendToNoteContainer(notes) {
+        const sortNoteContainer = document.getElementById("sortableNoteContainer")
+        
+        for (let note of notes) {
+            const newSortableNote = document.createElement('p')
+            newSortableNote.className = "draggable"
+            newSortableNote.draggable = "true"
+            newSortableNote.innerHTML = note.content 
+
+            const referenceDiv = document.createElement('div')
+            const referenceType = "note"
+            const referenceId = note.id
+            const referenceBoardId = note.boardId
+
+            referenceDiv.innerHTML = `${referenceType} ${referenceId} ${referenceBoardId}`
+            referenceDiv.className = "invisible"
+          
+            sortNoteContainer.appendChild(newSortableNote)
+            newSortableNote.appendChild(referenceDiv)
+
+            refreshDraggables()
+        }
+    }
+
     static deleteNote(noteLi, noteId) {
         fetch(`http://localhost:3000/notes/${noteId}`, {
             method: "DELETE"
@@ -77,7 +101,8 @@ class Note {
             let boardIdToAdd = note.board_id;
             newNote.boardId = boardIdToAdd;
 
-            Note.showNewNote(newNote)           
+            Note.showNewNote(newNote)
+            Note.appendNewNote(newNote)
         })
     }
 
@@ -97,9 +122,60 @@ class Note {
         noteLi.append(noteDelete)
         noteGrid.append(noteLi) 
     }
+
+    static appendNewNote(newNote) {
+        const sortNoteContainer = document.getElementById("sortableNoteContainer")
+        
+        const newSortableNote = document.createElement('p')
+        newSortableNote.className = "draggable"
+        newSortableNote.draggable = "true"
+        newSortableNote.innerHTML = newNote.content 
+
+        const referenceDiv = document.createElement('div')
+        const referenceType = "note"
+        const referenceId = newNote.id
+        const referenceBoardId = newNote.boardId
+
+        referenceDiv.innerHTML = `${referenceType} ${referenceId} ${referenceBoardId}`
+        referenceDiv.className = "invisible"
+      
+        sortNoteContainer.appendChild(newSortableNote)
+        newSortableNote.appendChild(referenceDiv)
+
+        refreshDraggables()
+    }
+
 }
+
+function deleteNoteObject(refId) {
+    fetch(`http://localhost:3000/notes/${refId}`, {
+            method: "DELETE"
+        })
+        .then(jsonToJS)
+        .then (m => {
+            emptyTrash();
+            Note.allNotes = Note.allNotes.filter(note => note.id !== refId)
+    })
+}
+
+
+
+
     ///////// APPENDING
     /*
+    static deleteNote(noteLi, noteId) {
+        fetch(`http://localhost:3000/notes/${noteId}`, {
+            method: "DELETE"
+        })
+        .then(jsonToJS)
+        .then (m => {
+            noteLi.remove()
+            Note.allNotes = Note.allNotes.filter(note => note.id !== noteId)
+        })
+    }
+
+
+
     static appendNotes(notes, element) {
         const ul = document.createElement('ul')
         ul.id = `list-${this.id}`
