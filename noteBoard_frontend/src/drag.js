@@ -5,6 +5,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 var draggables = document.querySelectorAll('.draggable')
 var containers = document.querySelectorAll('.container')
+var trashGate = true;
 
 
 draggables.forEach(draggable => {
@@ -48,28 +49,36 @@ function getDragAfterElement(container, y) {
 
 function checkTrash() {
     const trashContainer = document.getElementById('trashDiv')
-    if (trashContainer.hasChildNodes()){
-        let childToCheck = trashContainer.lastElementChild
-        let referenceDetails = ""
-
-        if (childToCheck.lastElementChild.className == "invisible"){
-            referenceDetails = childToCheck.lastElementChild.innerHTML
-            let refString = referenceDetails.toString()
-            
-            deleteTrashBoardObject(referenceDetails)
-        }       
+    
+    if (trashGate == true) 
+    {
+        if (trashContainer.hasChildNodes()){
+            trashGate = false;
+            let childToCheck = trashContainer.lastElementChild
+            let referenceDetails = ""
+    
+            if (childToCheck.lastElementChild.className == "invisible"){
+                referenceDetails = childToCheck.lastElementChild.innerHTML            
+    
+                let refString = referenceDetails.toString()
+                let refArr = refString.split(' ');
+                let refId = parseInt(refArr[1])
+    
+                if (refArr[0] == "board") {
+                    deleteBoardObject(refId)
+                }           
+            }       
+        }
     }
-}
-
-function deleteTrashBoardObject(referenceDetails) {
-    console.log(referenceDetails)
 }
 
 function emptyTrash() {
     const trashContainer = document.getElementById('trashDiv')   
-    while (trashContainer.hasChildNodes()){
-        trashContainer.removeChild(trashContainer.lastChild);
-    }  
+    while (trashContainer.firstChild) {
+       trashContainer.removeChild(trashContainer.firstChild)
+    }
+    refreshDraggables()
+    trashGate = true; 
 }
 
 function refreshDraggables() {

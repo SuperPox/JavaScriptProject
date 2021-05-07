@@ -121,25 +121,17 @@ class Board {
         
         Note.displayNoteGrid(this.notes) 
     }
-
-    static deleteBoard() {
-
-    }
-
-    /*
-    static deleteNote(noteLi, noteId) {
-        fetch(`http://localhost:3000/notes/${noteId}`, {
-            method: "DELETE"
-        })
-        .then(jsonToJS)
-        .then (m => {
-            noteLi.remove()
-            Note.allNotes = Note.allNotes.filter(note => note.id !== noteId)
-        })
-    }
-    */
 }
 
+function deleteBoardObject(refId) {
+    fetch(`http://localhost:3000/boards/${refId}`, {
+        method: "DELETE"
+    })
+    .then(jsonToJS)
+    .then (m => {
+        emptyTrash();
+    })
+}
 
 ///////////////////////////////////////////////////////////////////////
 // NAVIGATION
